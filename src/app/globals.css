@@ -55,4 +55,17 @@ Animated Neon Gradient Lines
     rgba(0, 255, 255, 0) 100%
   );
   animation: glowMove 6s linear infinite;
+  filter: drop-shadow(0 0 6px #00ffff) drop-shadow(0 0 12px #ab82ff);
+}
+
+/* =============================
+Section Divider Animation
+============================= */
+@keyframes slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(400%);
+  }
 }

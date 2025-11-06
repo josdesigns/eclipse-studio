@@ -2,16 +2,16 @@
 
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
-import FOG from "vanta/dist/vanta.fog.min.js";
 
 export const useVanta = (options?: object) => {
   const [vantaEffect, setVantaEffect] = useState<any>(null);
   const vantaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!vantaEffect && vantaRef.current) {
-      setVantaEffect(
-        FOG({
+    if (!vantaEffect && vantaRef.current && typeof window !== "undefined") {
+      const loadVanta = async () => {
+        const FOG = await import("vanta/dist/vanta.fog.min.js");
+        const effect = FOG.default({
           el: vantaRef.current,
           THREE,
           highlightColor: 0xffffff,
@@ -22,8 +22,10 @@ export const useVanta = (options?: object) => {
           speed: 1.2,
           zoom: 0.8,
           ...options,
-        })
-      );
+        });
+        setVantaEffect(effect);
+      };
+      loadVanta();
     }
 
     return () => {

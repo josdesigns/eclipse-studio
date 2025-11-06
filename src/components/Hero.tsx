@@ -3,13 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import * as THREE from "three";
+import SectionDivider from "../app/common/SectionDivider";
 
 export default function Hero() {
   const [vantaEffect, setVantaEffect] = useState<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // SSR対策：クライアント側でのみ import
     const loadVanta = async () => {
       const VANTA = await import("vanta/dist/vanta.net.min.js");
       if (!vantaEffect && containerRef.current) {
@@ -49,11 +49,12 @@ export default function Hero() {
   }, []);
 
   return (
-    <section
-      ref={containerRef}
-      className="relative h-screen flex flex-col items-center justify-center overflow-hidden"
-    >
-      <div className="z-10 text-center">
+    <>
+      <section
+        ref={containerRef}
+        className="relative h-screen flex flex-col items-center justify-center overflow-hidden"
+      >
+        <div className="z-10 text-center">
         <h1 className="fade-in text-5xl md:text-7xl font-orbitron text-white">
           ECLIPSE STUDIO
         </h1>
@@ -64,6 +65,8 @@ export default function Hero() {
           Explore
         </button>
       </div>
-    </section>
+      </section>
+      <SectionDivider />
+    </>
   );
 }
