@@ -5,7 +5,9 @@ import Link from "next/link";
 import * as THREE from "three";
 import { ArrowLeft } from "lucide-react";
 import { gsap } from "gsap";
-import { Work } from "@/types/works";
+import { Work } from "../types/works";
+import Footer from "../components/Footer";
+import SectionDivider from "../app/common/SectionDivider";
 
 export default function WorkDetailClient({ work }: { work: Work }) {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -63,18 +65,18 @@ export default function WorkDetailClient({ work }: { work: Work }) {
   return (
     <main ref={ref} className="min-h-screen relative text-white">
       <div className="absolute inset-0 bg-black/40 z-10" />
-      <div className="relative z-20 max-w-5xl mx-auto px-6 py-32">
-          {/* 戻るボタン */}
-          <Link
-            href="/#works"
-            className="inline-flex items-center gap-2 mb-8 text-gray-300 hover:text-white transition-colors group"
-          >
-            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-            <span className="font-inter">Back to Top</span>
-          </Link>
-          
-          <h1 ref={titleRef} className="text-4xl md:text-6xl font-orbitron mb-4">{work.title}</h1>
-          <p ref={metaRef} className="text-gray-300 mb-6">{work.subtitle}</p>
+      <div className="relative z-20 max-w-5xl mx-auto px-6 py-24">
+        {/* 戻るボタン */}
+        <Link
+          href="/#works"
+          className="inline-flex items-center gap-2 mb-8 text-gray-300 hover:text-white transition-colors group"
+        >
+          <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+          <span className="font-inter">Back to Top</span>
+        </Link>
+        
+        <h1 className="work-title text-4xl md:text-6xl font-orbitron mb-4">{work.title}</h1>
+        <p className="work-meta text-gray-300 mb-6">{work.subtitle}</p>
         <div className="flex gap-6 flex-col md:flex-row">
           <div className="flex-1">
             <img src={work.image} alt={work.title} className="w-full rounded-lg mb-6 object-cover" />
@@ -100,6 +102,8 @@ export default function WorkDetailClient({ work }: { work: Work }) {
           </aside>
         </div>
       </div>
+      <SectionDivider />
+      <Footer />
     </main>
   );
 }

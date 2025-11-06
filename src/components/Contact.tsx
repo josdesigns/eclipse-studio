@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useVanta } from "@/hooks/useVanta";
+import { useVanta } from "../hooks/useVanta";
 import SectionDivider from "../app/common/SectionDivider";
 
 gsap.registerPlugin(ScrollTrigger);

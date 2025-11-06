@@ -1,6 +1,6 @@
-import WorkDetailClient from "@/components/WorkDetailClient";
+import WorkDetailClient from "../../../components/WorkDetailClient";
 import { notFound } from "next/navigation";
-import { Work } from "@/types/works";
+import { Work } from "../../../types/works";
 
 const WORKS: Record<string, Work> = {
   "holographic-interface": {

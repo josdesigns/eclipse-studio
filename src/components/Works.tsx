@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import * as THREE from "three";
-import { Work } from "@/types/works";
+import { Work } from "../types/works";
 import SectionDivider from "../app/common/SectionDivider";
 
 const worksData: Work[] = [
