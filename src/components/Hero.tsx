@@ -1,19 +1,23 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { gsap } from "gsap";
 import * as THREE from "three";
 import SectionDivider from "../app/common/SectionDivider";
 
 export default function Hero() {
   const [vantaEffect, setVantaEffect] = useState<any>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const titleRef = useRef<HTMLHeadingElement | null>(null);
+  const ctaContainerRef = useRef<HTMLDivElement | null>(null);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    let mounted = true;
     const loadVanta = async () => {
       const VANTA = await import("vanta/dist/vanta.net.min.js");
-      if (!vantaEffect && containerRef.current) {
+      if (mounted && !vantaEffect && containerRef.current) {
         const effect = VANTA.default({
           el: containerRef.current,
           THREE,
@@ -24,8 +28,8 @@ export default function Hero() {
           scale: 1.0,
           scaleMobile: 1.0,
           color: 0x8a2be2,
-          backgroundColor: 0x0a0a0a,
-          points: 15.0,
+          backgroundColor: 0x0d0d12,
+          points: 14.0,
           maxDistance: 22.0,
         });
         setVantaEffect(effect);
@@ -34,64 +38,105 @@ export default function Hero() {
     loadVanta();
 
     return () => {
+      mounted = false;
       if (vantaEffect) vantaEffect.destroy();
     };
-  }, [vantaEffect]);
+  }, []);
 
-  // GSAP アニメーション - 一文字ずつ浮き上がる
+  // GSAP アニメーション
   useEffect(() => {
-    // タイトルの各文字をアニメーション
-    if (titleRef.current) {
-      const chars = titleRef.current.querySelectorAll(".char");
-      gsap.from(chars, {
-        opacity: 0,
-        y: 50,
-        rotationX: -90,
-        duration: 0.8,
-        ease: "back.out(1.7)",
-        stagger: 0.09, // 文字ごとの遅延
-      });
-    }
+    if (!titleRef.current || !ctaContainerRef.current || !scrollRef.current) return;
 
-    // サブタイトルのアニメーション
-    gsap.from(".subtitle", {
+    const chars = titleRef.current.querySelectorAll(".char");
+    gsap.from(chars, {
+      opacity: 0,
+      y: 50,
+      rotationX: -90,
+      duration: 0.8,
+      ease: "back.out(1.7)",
+      stagger: 0.06,
+    });
+
+    // サブテキスト
+    gsap.from(".hero-sub", {
+      opacity: 0,
+      y: 24,
+      duration: 1,
+      delay: 1.2,
+      ease: "power3.out",
+    });
+
+    // CTAボタンコンテナ
+    gsap.from(ctaContainerRef.current, {
       opacity: 0,
       y: 30,
-      duration: 1,
-      delay: 1.5, // タイトルアニメーション後に表示
+      duration: 1.2,
+      delay: 1.6,
       ease: "power3.out",
+    });
+
+    // スクロール表示
+    gsap.from(scrollRef.current, {
+      opacity: 0,
+      y: 10,
+      duration: 1.2,
+      delay: 2.0,
+      ease: "power2.out",
     });
   }, []);
 
-  // テキストを一文字ずつspanで囲む関数
-  const splitText = (text: string) => {
-    return text.split("").map((char, index) => (
-      <span
-        key={index}
-        className="char inline-block"
-        style={{ display: "inline-block" }}
-      >
+  const splitText = (text: string) =>
+    text.split("").map((char, i) => (
+      <span key={i} className="char inline-block" style={{ display: "inline-block" }}>
         {char === " " ? "\u00A0" : char}
       </span>
     ));
-  };
 
   return (
     <>
       <section
         ref={containerRef}
         className="relative h-screen flex flex-col items-center justify-center overflow-hidden"
+        aria-label="Hero"
       >
-        <div className="z-10 text-center">
+        <div className="z-10 text-center px-6">
           <h1
             ref={titleRef}
-            className="text-6xl md:text-8xl font-orbitron text-white"
+            className="text-5xl md:text-7xl lg:text-8xl font-orbitron text-white leading-tight"
           >
             {splitText("ECLIPSE STUDIO")}
           </h1>
-          <p className="subtitle mt-6 text-2xl md:text-3xl text-white">
-            FUTURE DESIGN AGENCY
+
+          <p className="hero-sub mt-6 text-lg md:text-2xl text-gray-300 max-w-2xl mx-auto">
+            We craft immersive digital experiences — blending design, technology, and storytelling.
           </p>
+
+          <div
+            ref={ctaContainerRef}
+            className="mt-8 flex flex-col sm:flex-row justify-center gap-4"
+          >
+            <Link
+              href="/works"
+              className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-[#6D28D9] to-[#06B6D4] text-white font-medium shadow-lg hover:scale-[1.03] transition-transform duration-300"
+            >
+              Explore Our Works
+            </Link>
+
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-white/20 text-white/90 hover:bg-white/5 transition duration-300"
+            >
+              Start a Project
+            </a>
+          </div>
+
+          {/* Scroll down */}
+          <div
+            ref={scrollRef}
+            className="mt-10 text-white/60 text-sm tracking-widest animate-bounce"
+          >
+            SCROLL ↓
+          </div>
         </div>
       </section>
       <SectionDivider />

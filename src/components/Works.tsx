@@ -82,7 +82,13 @@ export default function Works() {
     <>
       <section id="works" ref={containerRef} className="relative py-24 overflow-hidden">
         <div className="relative z-10 max-w-6xl mx-auto px-6">
-          <h2 className="text-4xl md:text-5xl font-orbitron mb-14 text-center text-white tracking-wide">WORKS</h2>
+          <div className="text-center mb-14">
+            <h2 className="text-4xl md:text-5xl font-orbitron mb-4 text-center text-white tracking-wide">WORKS</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+              Exploring the frontier of interactive design and visual storytelling.<br />
+              Each project reflects our pursuit of beauty, logic, and emotion through technology.
+            </p>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
             {worksData.map((w) => (
               <Link key={w.slug} href={`/works/${w.slug}`} className="group block rounded-2xl overflow-hidden border border-gray-800">
