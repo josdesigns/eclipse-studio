@@ -1,20 +1,49 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import * as THREE from "three";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useVanta } from "../hooks/useVanta";
 import SectionDivider from "../app/common/SectionDivider";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Contact() {
-  const vantaRef = useVanta({
-    midtoneColor: 0x00ffff,
-    highlightColor: 0x8a2be2,
-    speed: 0.6,
-    zoom: 0.9,
-  });
+  const [vantaEffect, setVantaEffect] = useState<any>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    const loadVanta = async () => {
+      const VANTA = await import("vanta/dist/vanta.waves.min.js");
+      if (!vantaEffect && containerRef.current) {
+        const effect = VANTA.default({
+          el: containerRef.current,
+          THREE,
+          mouseControls: false,
+          touchControls: false,
+          minHeight: 200.0,
+          minWidth: 200.0,
+          scale: 1.0,
+          scaleMobile: 1.0,
+          color: 0xff00ff,
+          color2: 0x00ffff,
+          shininess: 90.0,
+          waveHeight: 30.0,
+          waveSpeed: 0.8,
+          zoom: 1.2,
+          backgroundColor: 0x000000,
+        });
+        setVantaEffect(effect);
+      }
+    };
+    loadVanta();
+
+    return () => {
+      mounted = false;
+      if (vantaEffect) vantaEffect.destroy();
+    };
+  }, [vantaEffect]);
 
   const titleRef = useRef<HTMLHeadingElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
@@ -60,13 +89,9 @@ export default function Contact() {
 
   return (
     <>
-      <section
-        ref={vantaRef}
-        id="contact"
-        className="relative flex flex-col items-center justify-center min-h-screen text-white overflow-hidden px-6"
-      >
+      <section id="contact" className="relative min-h-screen text-white overflow-hidden px-6 flex flex-col justify-center items-center">
+        <div ref={containerRef} className="absolute inset-0 z-0" />
         <div className="absolute inset-0 bg-black/50 z-10 pointer-events-none" />
-
         <div className="relative z-20 max-w-xl w-full text-center">
           <h2 ref={titleRef} className="text-4xl md:text-5xl font-orbitron mb-14 text-white tracking-wide">
             CONTACT

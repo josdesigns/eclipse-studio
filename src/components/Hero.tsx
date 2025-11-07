@@ -116,15 +116,15 @@ export default function Hero() {
             className="mt-8 flex flex-col sm:flex-row justify-center gap-4"
           >
             <Link
-              href="/works"
-              className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-[#6D28D9] to-[#06B6D4] text-white font-medium shadow-lg hover:scale-[1.03] transition-transform duration-300"
+              href="#works"
+              className="inline-flex items-center justify-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-[#6D28D9] to-[#06B6D4] text-white font-medium shadow-lg hover:scale-[1.03] transition-transform duration-300"
             >
               Explore Our Works
             </Link>
 
             <a
               href="#contact"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-white/20 text-white/90 hover:bg-white/5 transition duration-300"
+              className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r from-[#6D28D9] to-[#06B6D4] text-white/90 hover:scale-[1.03] transition duration-300"
             >
               Start a Project
             </a>
@@ -133,7 +133,7 @@ export default function Hero() {
           {/* Scroll down */}
           <div
             ref={scrollRef}
-            className="mt-10 text-white/60 text-sm tracking-widest animate-bounce"
+            className="mt-10 text-white text-sm tracking-widest animate-bounce"
           >
             SCROLL ↓
           </div>
