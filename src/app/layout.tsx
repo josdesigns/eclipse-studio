@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import GlowLine from "./common/GlowLine";
 
@@ -16,6 +17,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "ECLIPSE STUDIO",
   description: "ECLIPSE STUDIO",
+  icons: {
+    icon: "/images/icon.jpg",
+  },
 };
 
 export default function RootLayout({
@@ -28,6 +32,19 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* Google tag (gtag.js) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-GVGEZTRSN4"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-GVGEZTRSN4');
+          `}
+        </Script>
         <GlowLine />
         {children}
       </body>
