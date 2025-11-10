@@ -10,6 +10,7 @@ export default function Hero() {
   const [vantaEffect, setVantaEffect] = useState<any>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const titleRef = useRef<HTMLHeadingElement | null>(null);
+  const titleMobileRef = useRef<HTMLHeadingElement | null>(null);
   const ctaContainerRef = useRef<HTMLDivElement | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
@@ -45,17 +46,32 @@ export default function Hero() {
 
   // GSAP アニメーション
   useEffect(() => {
-    if (!titleRef.current || !ctaContainerRef.current || !scrollRef.current) return;
+    if (!ctaContainerRef.current || !scrollRef.current) return;
 
-    const chars = titleRef.current.querySelectorAll(".char");
-    gsap.from(chars, {
-      opacity: 0,
-      y: 50,
-      rotationX: -90,
-      duration: 0.8,
-      ease: "back.out(1.7)",
-      stagger: 0.06,
-    });
+    // デスクトップ用タイトルアニメーション
+    if (titleRef.current) {
+      const chars = titleRef.current.querySelectorAll(".char");
+      if (chars.length > 0) {
+        gsap.from(chars, {
+          opacity: 0,
+          y: 50,
+          rotationX: -90,
+          duration: 0.8,
+          ease: "back.out(1.7)",
+          stagger: 0.06,
+        });
+      }
+    }
+
+    // モバイル用タイトルアニメーション
+    if (titleMobileRef.current) {
+      gsap.from(titleMobileRef.current, {
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        ease: "back.out(1.7)",
+      });
+    }
 
     // サブテキスト
     gsap.from(".hero-sub", {
@@ -100,9 +116,18 @@ export default function Hero() {
         aria-label="Hero"
       >
         <div className="z-10 text-center px-6">
+          {/* モバイル用タイトル */}
+          <h1
+            ref={titleMobileRef}
+            className="md:hidden text-6xl font-orbitron text-white leading-tight"
+          >
+            ECLIPSE <br /> STUDIO
+          </h1>
+
+          {/* デスクトップ用タイトル */}
           <h1
             ref={titleRef}
-            className="text-5xl md:text-7xl lg:text-8xl font-orbitron text-white leading-tight"
+            className="hidden md:block text-5xl md:text-7xl lg:text-8xl font-orbitron text-white leading-tight"
           >
             {splitText("ECLIPSE STUDIO")}
           </h1>

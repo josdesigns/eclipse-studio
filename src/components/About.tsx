@@ -139,7 +139,7 @@ export default function About() {
 function LinkButton() {
   return (
     <a
-      href="/works"
+      href="#works"
       className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-[#2563eb] to-[#06b6d4] text-white font-medium shadow hover:shadow-lg transition"
     >
       View Our Work
